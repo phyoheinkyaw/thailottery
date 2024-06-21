@@ -3,6 +3,7 @@ $(document).ready(function(){
         interval: 4000,
         wrap: true
     });
+    fetchTicketsForDate('1July2024');
 });
 
 // Firebase configuration
@@ -20,10 +21,6 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
-$(document).ready(function(){
-    fetchTicketsForDate();
-});
-
 function fetchTicketsForDate(dateNode) {
     database.ref('tickets/' + dateNode).on('value', function(snapshot) {
         var tickets = snapshot.val();
@@ -36,11 +33,13 @@ function fetchTicketsForDate(dateNode) {
         // carouselInner.empty(); // Clear existing carousel items
 
         var isFirstItem = true;
+        var availableTicketCount = 0;
 
         for (var id in tickets) {
             if (tickets.hasOwnProperty(id)) {
                 var ticket = tickets[id];
                 if (ticket.available) {
+                    availableTicketCount++;
                     var formattedTicketNumber = ticket.ticketNumber.split('').join(' ');
 
                     // Add 'active' class to first carousel item
@@ -70,6 +69,8 @@ function fetchTicketsForDate(dateNode) {
             }
         }
 
+        $('#availableTicketsCount').text(`(Only ${availableTicketCount} Ticket(s) Available)`);
+
         // Initialize the carousel after appending items
         $('#ticketCarousel').carousel();
 
@@ -82,6 +83,3 @@ function fetchTicketsForDate(dateNode) {
         });
     });
 }
-
-// Example usage: Fetch tickets for July 1, 2024
-fetchTicketsForDate('1July2024');
