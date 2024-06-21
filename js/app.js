@@ -72,7 +72,17 @@ function fetchTicketsForDate(dateNode) {
         if (availableTicketCount > 0) {
             $('#availableTicketsCount').text(`(Only ${availableTicketCount} Ticket(s) Available)`);
         } else {
-            $('#availableTicketsCount').html('လက်မှတ်များကုန်သွားပါပြီ <br/><br/> ဘတ် ၆ သန်း ဆုကြီး ဆွတ်ခူးနိုင်ကြပါစေဗျား');
+            $('#availableTicketsCount').html(`လက်မှတ်များကုန်သွားပါပြီ <br/><br/> ဘတ် ၆ သန်း ဆုကြီး ဆွတ်ခူးနိုင်ကြပါစေဗျား <br/><br/> 
+                <em style="color:red">" လက်မှတ်အသစ်များရလျှင်ထပ်တင်ပေးပါမည် "</em> <br/><br/>
+                Follow Us On Facebook <br/>
+                <div class="buttons">
+                <a href="https://www.facebook.com/phyoheinkyaw.bm" class="social-btn" target="_blank">
+                <i class="fab fa-facebook-f"></i> <span>Phyo Hein Kyaw</span>
+                </a>
+                <a href="https://www.facebook.com/sarkura.snow" class="social-btn" target="_blank">
+                <i class="fab fa-facebook-f"></i> <span>Nan Nwe</span>
+                </a>
+                </div>`);
             var staticImageHtml = `
                 <div class="carousel-item active">
                     <img src="img/noticket.png" class="d-block w-100" alt="No Tickets Available" loading="lazy">
