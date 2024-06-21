@@ -69,7 +69,17 @@ function fetchTicketsForDate(dateNode) {
             }
         }
 
-        $('#availableTicketsCount').text(`(Only ${availableTicketCount} Ticket(s) Available)`);
+        if (availableTicketCount > 0) {
+            $('#availableTicketsCount').text(`(Only ${availableTicketCount} Ticket(s) Available)`);
+        } else {
+            $('#availableTicketsCount').html('လက်မှတ်များကုန်သွားပါပြီ <br/><br/> ဘတ် ၆ သန်း ဆုကြီး ဆွတ်ခူးနိုင်ကြပါစေဗျား');
+            var staticImageHtml = `
+                <div class="carousel-item active">
+                    <img src="img/noticket.png" class="d-block w-100" alt="No Tickets Available" loading="lazy">
+                </div>
+            `;
+            carouselInner.append(staticImageHtml);
+        }
 
         // Initialize the carousel after appending items
         $('#ticketCarousel').carousel();
