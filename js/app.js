@@ -1,39 +1,44 @@
 $(document).ready(function(){
+    // Initialize the carousel with interval and wrap settings
     $('#ticketCarousel').carousel({
         interval: 4000,
         wrap: true
     });
-    fetchTicketsForDate('1July2024');
+
+    // Fetch the Firebase config from the PHP endpoint
+    fetchFirebaseConfig();
 });
 
-// Firebase configuration
-var firebaseConfig = {
-    apiKey: "AIzaSyDiqIjcxw0EIKBUk1oSd-qmwu9eyLEK-08",
-    authDomain: "thailottery-cc39c.firebaseapp.com",
-    databaseURL: "https://thailottery-cc39c-default-rtdb.asia-southeast1.firebasedatabase.app/",
-    projectId: "thailottery-cc39c",
-    storageBucket: "thailottery-cc39c.appspot.com",
-    messagingSenderId: "553426099598",
-    appId: "1:553426099598:web:3b5184a3e8039f932218df"
-};
+function fetchFirebaseConfig() {
+    fetch('https://phatezar.com/endpoint.php')
+        .then(response => response.json())
+        .then(firebaseConfig => {
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-var database = firebase.database();
+            // Initialize Firebase with the fetched config
+            firebase.initializeApp(firebaseConfig);
+            var database = firebase.database();
 
-function fetchTicketsForDate(dateNode) {
+            // Call the function to fetch tickets for a specific date
+            fetchTicketsForDate(database, '1July2024');
+        })
+        .catch(error => {
+            console.error('Error fetching Firebase config:', error);
+        });
+}
+
+function fetchTicketsForDate(database, dateNode) {
     database.ref('tickets/' + dateNode).on('value', function(snapshot) {
         var tickets = snapshot.val();
+
         var ticketContainer = $('.row').eq(2); // Target the appropriate container for all tickets
-
-        // Clear existing content before appending new items
-        // ticketContainer.empty();
-
         var carouselInner = $('#ticketCarousel .carousel-inner'); // Target the carousel inner container
-        // carouselInner.empty(); // Clear existing carousel items
 
         var isFirstItem = true;
         var availableTicketCount = 0;
+
+        // Clear existing content before appending new items
+        ticketContainer.empty();
+        carouselInner.empty();
 
         for (var id in tickets) {
             if (tickets.hasOwnProperty(id)) {
@@ -42,7 +47,7 @@ function fetchTicketsForDate(dateNode) {
                     availableTicketCount++;
                     var formattedTicketNumber = ticket.ticketNumber.split('').join(' ');
 
-                    // Add 'active' class to first carousel item
+                    // Add 'active' class to the first carousel item
                     var activeClass = isFirstItem ? 'active' : '';
                     var carouselItemHtml = `
                         <div class="carousel-item ${activeClass}">
@@ -64,11 +69,12 @@ function fetchTicketsForDate(dateNode) {
                     `;
                     ticketContainer.append(ticketHtml);
 
-                    isFirstItem = false; // Update isFirstItem flag after first carousel item
+                    isFirstItem = false; // Update isFirstItem flag after the first carousel item
                 }
             }
         }
 
+        // Display message if no tickets are available
         if (availableTicketCount > 0) {
             $('#availableTicketsCount').text(`(Only ${availableTicketCount} Ticket(s) Available)`);
         } else {
@@ -76,13 +82,14 @@ function fetchTicketsForDate(dateNode) {
                 <em style="color:red">" လက်မှတ်အသစ်များရလျှင်ထပ်တင်ပေးပါမည် "</em> <br/><br/>
                 Follow Us On Facebook <br/>
                 <div class="buttons">
-                <a href="https://www.facebook.com/phyoheinkyaw.bm" class="social-btn" target="_blank">
-                <i class="fab fa-facebook-f"></i> <span>Phyo Hein Kyaw</span>
-                </a>
-                <a href="https://www.facebook.com/sarkura.snow" class="social-btn" target="_blank">
-                <i class="fab fa-facebook-f"></i> <span>Nan Nwe</span>
-                </a>
+                    <a href="https://www.facebook.com/phyoheinkyaw.bm" class="social-btn" target="_blank">
+                        <i class="fab fa-facebook-f"></i> <span>Phyo Hein Kyaw</span>
+                    </a>
+                    <a href="https://www.facebook.com/sarkura.snow" class="social-btn" target="_blank">
+                        <i class="fab fa-facebook-f"></i> <span>Nan Nwe</span>
+                    </a>
                 </div>`);
+
             var staticImageHtml = `
                 <div class="carousel-item active">
                     <img src="img/noticket.png" class="d-block w-100" alt="No Tickets Available" loading="lazy">
