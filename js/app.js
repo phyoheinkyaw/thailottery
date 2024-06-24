@@ -82,10 +82,10 @@ function fetchTicketsForDate(database, dateNode) {
                 <em style="color:red">" လက်မှတ်အသစ်များရလျှင်ထပ်တင်ပေးပါမည် "</em> <br/><br/>
                 Follow Us On Facebook <br/>
                 <div class="buttons">
-                    <a href="https://www.facebook.com/phyoheinkyaw.bm" class="social-btn" target="_blank">
+                    <a href="https://www.facebook.com/phyoheinkyaw.bm" class="social-btn">
                         <i class="fab fa-facebook-f"></i> <span>Phyo Hein Kyaw</span>
                     </a>
-                    <a href="https://www.facebook.com/sarkura.snow" class="social-btn" target="_blank">
+                    <a href="https://www.facebook.com/sarkura.snow" class="social-btn">
                         <i class="fab fa-facebook-f"></i> <span>Nan Nwe</span>
                     </a>
                 </div>`);
