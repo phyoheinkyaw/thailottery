@@ -10,7 +10,7 @@ $(document).ready(function(){
 });
 
 function fetchFirebaseConfig() {
-    fetch('https://phatezar.com/endpoint.php')
+    fetch('https://thailottery.42web.io/endpoint.php')
         .then(response => response.json())
         .then(firebaseConfig => {
 
