@@ -5,25 +5,27 @@ $(document).ready(function(){
         wrap: true
     });
 
-    // Fetch the Firebase config from the PHP endpoint
-    fetchFirebaseConfig();
+    // Directly use the Firebase config
+    initializeFirebase();
 });
 
-function fetchFirebaseConfig() {
-    fetch('https://thailottery.42web.io/endpoint.php')
-        .then(response => response.json())
-        .then(firebaseConfig => {
+function initializeFirebase() {
+    var firebaseConfig = {
+        apiKey: 'AIzaSyDiqIjcxw0EIKBUk1oSd-qmwu9eyLEK-08',
+        authDomain: 'thailottery-cc39c.firebaseapp.com',
+        databaseURL: 'https://thailottery-cc39c-default-rtdb.asia-southeast1.firebasedatabase.app/',
+        projectId: 'thailottery-cc39c',
+        storageBucket: 'thailottery-cc39c.appspot.com',
+        messagingSenderId: '553426099598',
+        appId: '1:553426099598:web:3b5184a3e8039f932218df'
+    };
 
-            // Initialize Firebase with the fetched config
-            firebase.initializeApp(firebaseConfig);
-            var database = firebase.database();
+    // Initialize Firebase with the provided config
+    firebase.initializeApp(firebaseConfig);
+    var database = firebase.database();
 
-            // Call the function to fetch tickets for a specific date
-            fetchTicketsForDate(database, '1July2024');
-        })
-        .catch(error => {
-            console.error('Error fetching Firebase config:', error);
-        });
+    // Call the function to fetch tickets for a specific date
+    fetchTicketsForDate(database, '1July2024');
 }
 
 function fetchTicketsForDate(database, dateNode) {
